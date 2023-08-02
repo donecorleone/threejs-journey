@@ -5,12 +5,12 @@
 }
 
 body {
-    background-color: lightpink;
+   background-color: black;
 }
 
 .webgl
 {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     outline: none;
@@ -19,6 +19,8 @@ body {
 .wrapper {
     width: 100%;
     height: fit-content;
+    background: rgb(2,0,36);
+    background: radial-gradient(circle at 50% 100%, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 0%, rgba(0,0,0,1) 72%);
 }
 
 .section
@@ -31,8 +33,7 @@ body {
     color: #ffeded;
     text-transform: uppercase;
     font-size: 7vmin;
-    padding-left: 10%;
-    padding-right: 10%;
+    padding: 0 10%;
 }
 
 
