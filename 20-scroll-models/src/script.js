@@ -116,19 +116,19 @@ scene.add(particles, 3)
 let model;
 
 gltfLoader.load(
-    '/models/Balloon/scene.gltf',
+    '/models/Raven/scene.gltf',
     (gltf) =>
     {
         model = gltf.scene
         scene.add(model)
-        model.position.set(0, 0, 0)
+        model.position.set(0, -1, 0)
         
         if (window.innerWidth <= 768) {
-            // Smaller scale for mobile devices
+            // Mobile
             model.scale.set(0.4, 0.4, 0.4)
         } else {
-            // Default scale for larger screens
-            model.scale.set(0.6, 0.6, 0.6)
+            // Desktop
+            model.scale.set(15, 15, 15)
         }
        
 
@@ -214,7 +214,7 @@ const tick = () =>
     // Animation
 
     if (model) {
-        model.rotateY(0.0005)
+        model.rotateY(0.05)
     }
     particles.rotation.x = - elapsedTime * 0.1
     particles.rotation.y = elapsedTime * 0.08
