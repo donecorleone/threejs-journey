@@ -55,10 +55,11 @@ const glassMaterial = new THREE.MeshPhysicalMaterial()
     glassMaterial.clearcoat = 0.8;
     glassMaterial.ior = 1.15;
     glassMaterial.specularIntensity = 0.6;
-    glassMaterial.roughness = 0.0;
+    glassMaterial.roughness = 0;
+    glassMaterial.metalness= 0
     glassMaterial.thickness = 0.5;
-    glassMaterial.transmission = 1.0;
-    glassMaterial.sheen = 0.0;
+    glassMaterial.transmission = 1;
+    glassMaterial.sheen = 0;
     glassMaterial.envMap = environmentMapTexture
 
 
