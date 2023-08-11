@@ -2,10 +2,24 @@ import * as THREE from 'three'
 import * as dat from 'lil-gui'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { STLLoader } from 'three/examples/jsm/loaders/STLLoader'
 import gsap from 'gsap'
 
 const gltfLoader = new GLTFLoader()
 
+const textureLoader = new THREE.TextureLoader()
+const roughnessTexture = textureLoader.load('/textures/metal/roughness.jpg')
+const matcapTexture = textureLoader.load('/textures/matcaps/9.png')
+
+const cubeTextureLoader = new THREE.CubeTextureLoader()
+const environmentMapTexture = cubeTextureLoader.load([
+    '/textures/environmentMaps/5/px.png',
+    '/textures/environmentMaps/5/nx.png',
+    '/textures/environmentMaps/5/py.png',
+    '/textures/environmentMaps/5/ny.png',
+    '/textures/environmentMaps/5/pz.png',
+    '/textures/environmentMaps/5/nz.png'
+])
 
 
 const cursor = {
@@ -33,9 +47,7 @@ const wrapper = document.querySelector('.wrapper')
 
 const scene = new THREE.Scene()
 
-const textureLoader = new THREE.TextureLoader()
 
-const matcapTexture = textureLoader.load('/textures/matcaps/3.png')
 const particlesTexture = textureLoader.load('/textures/particles/5.png')
 
 const fireColors = [
@@ -83,40 +95,63 @@ scene.add(particles)
 let model;
 
 
-gltfLoader.load('/models/Raven/scene.gltf', (gltf) => {
+gltfLoader.load('/models/Raven/ravency.gltf', (gltf) => {
     model = gltf.scene;
 
-    model.traverse((child) => {
-        if (child.isMesh) {
-            child.material.matcap = matcapTexture;
+    // const material = new THREE.MeshMatcapMaterial()
+    // material.matcap = matcapTexture
+
+    const standardMaterial = new THREE.MeshPhysicalMaterial();
+    standardMaterial.metalness = 1;
+    standardMaterial.roughness = 0.1;
+    standardMaterial.clearcoat = 1;
+    standardMaterial.envMap = environmentMapTexture;
+    standardMaterial.roughnessMap = roughnessTexture;
+    
+
+    model.traverse((node) => {
+        if (node.isMesh) {
+            node.material = standardMaterial;
+            // node.material.envMap = environmentMapTexture;
+            node.material.needsUpdate = true;
         }
     });
 
     scene.add(model);
-   
+
+    model.rotation.set(0, 0, 0)
 
     if (window.innerWidth <= 768) {
         model.scale.set(20, 20, 20);
         model.position.set(1, -0.5, 0);
     } else {
-        model.scale.set(25, 25, 25);
-        model.position.set(0, -0.5, 0);
+        model.scale.set(20, 20, 20);
+        model.position.set(-1, 0, 0);
     }
 });
 
-const ambientLight = new THREE.AmbientLight(0xffffff, 1)
+// const material = new THREE.MeshPhysicalMaterial({
+//     color: 0xb2ffc8,
+//     metalness: 0.25,
+//     roughness: 0.1,
+//     opacity: 1.0,
+//     transparent: true,
+//     transmission: 0.99,
+//     clearcoat: 1.0,
+//     clearcoatRoughness: 0.25
+// })
+
+// Lights
+
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
 scene.add(ambientLight)
 
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1)
-directionalLight.castShadow = true
-directionalLight.shadow.mapSize.set(1024, 1024)
-directionalLight.shadow.camera.far = 15
-directionalLight.shadow.camera.left = - 7
-directionalLight.shadow.camera.top = 7
-directionalLight.shadow.camera.right = 7
-directionalLight.shadow.camera.bottom = - 7
-directionalLight.position.set(5, 5, 5)
-scene.add(directionalLight)
+const pointLight = new THREE.PointLight(0xffffff, 0.5)
+pointLight.position.x = 2
+pointLight.position.y = 3
+pointLight.position.z = 4
+scene.add(pointLight)
+
 
 const sizes = {
     width: wrapper.offsetWidth,
@@ -133,7 +168,8 @@ window.addEventListener('resize', () => {
 })
 
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.set(0, 0, 6)
+camera.position.set(0, 0, 5);
+
 scene.add(camera)
 
 const renderer = new THREE.WebGLRenderer({
@@ -147,15 +183,20 @@ renderer.gammaOutput = true
 renderer.gammaFactor = 2.2
 
 const clock = new THREE.Clock()
+const maxAngle = THREE.MathUtils.degToRad(30);  
+const speed = 0.5;  
 const tick = () => {
-    const elapsedTime = clock.getElapsedTime()
+    const elapsedTime = clock.getElapsedTime();
+
     if (model) {
-        model.rotateY(0.0005)
+        model.rotation.y = Math.sin(elapsedTime * speed) * maxAngle;
     }
-    particles.rotation.x = - elapsedTime * 0.1
-    particles.rotation.y = elapsedTime * 0.08
-    renderer.render(scene, camera)
-    window.requestAnimationFrame(tick)
+
+    particles.rotation.x = - elapsedTime * 0.1;
+    particles.rotation.y = elapsedTime * 0.08;
+
+    renderer.render(scene, camera);
+    window.requestAnimationFrame(tick);
 }
 
-tick()
+tick();

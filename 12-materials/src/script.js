@@ -50,9 +50,21 @@ material.roughness = 0
 material.envMap = environmentMapTexture
 
 
+const glassMaterial = new THREE.MeshPhysicalMaterial()
+
+    glassMaterial.clearcoat = 0.8;
+    glassMaterial.ior = 1.15;
+    glassMaterial.specularIntensity = 0.6;
+    glassMaterial.roughness = 0.0;
+    glassMaterial.thickness = 0.5;
+    glassMaterial.transmission = 1.0;
+    glassMaterial.sheen = 0.0;
+    glassMaterial.envMap = environmentMapTexture
+
+
 const sphere = new THREE.Mesh(
     new THREE.SphereGeometry(0.5, 16, 16),
-    material
+    glassMaterial
 )
 sphere.position.x = -1.5
 
@@ -122,7 +134,8 @@ controls.enableDamping = true
  * Renderer
  */
 const renderer = new THREE.WebGLRenderer({
-    canvas: canvas
+    canvas: canvas,
+    alpha: true
 })
 renderer.outputColorSpace = THREE.LinearSRGBColorSpace
 renderer.setSize(sizes.width, sizes.height)
