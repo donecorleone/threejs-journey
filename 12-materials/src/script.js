@@ -1,5 +1,8 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+
+const gltfLoader = new GLTFLoader()
 
 THREE.ColorManagement.enabled = false
 
@@ -44,7 +47,7 @@ const scene = new THREE.Scene()
 // const material = new THREE.MeshMatcapMaterial()
 // material.matcap = matcapTexture
 
-const material = new THREE.MeshStandardMaterial()
+const material = new THREE.MeshPhysicalMaterial()
 material.metalness = 1
 material.roughness = 0
 material.envMap = environmentMapTexture
@@ -63,23 +66,63 @@ const glassMaterial = new THREE.MeshPhysicalMaterial()
     glassMaterial.envMap = environmentMapTexture
 
 
-const sphere = new THREE.Mesh(
-    new THREE.SphereGeometry(0.5, 16, 16),
-    glassMaterial
-)
-sphere.position.x = -1.5
+// const sphere = new THREE.Mesh(
+//     new THREE.SphereGeometry(0.5, 16, 16),
+//     glassMaterial
+// )
+// sphere.position.set = (-1.5, 0, 0)
+
 
 const plane = new THREE.Mesh(
-    new THREE.PlaneGeometry(1, 1), material
+    new THREE.PlaneGeometry(8, 8), material
 )
+
+plane.position.set(0, 0, -1)
 
 const torus = new THREE.Mesh(
     new THREE.TorusGeometry(0.5, 0.2, 16, 32), material
 )
 
-torus.position.x = 1.5
+torus.position.x = 3
 
-scene.add(sphere, plane, torus)
+scene.add(plane, torus)
+
+
+let model;
+
+
+gltfLoader.load('/models/Raven/ravency.gltf', (gltf) => {
+    model = gltf.scene;
+
+    // const material = new THREE.MeshMatcapMaterial()
+    // material.matcap = matcapTexture
+
+    // const standardMaterial = new THREE.MeshPhysicalMaterial();
+    // standardMaterial.metalness = 1;
+    // standardMaterial.roughness = 0.25;
+    // standardMaterial.clearcoat = 1;
+    
+
+    model.traverse((node) => {
+        if (node.isMesh) {
+            node.material = glassMaterial;
+            // node.material.envMap = environmentMapTexture;
+            node.material.needsUpdate = true;
+        }
+    });
+
+    scene.add(model);
+
+    model.rotation.set(0, 0, 0)
+
+    if (window.innerWidth <= 768) {
+        model.scale.set(20, 20, 20);
+        model.position.set(1, -0.5, 0);
+    } else {
+        model.scale.set(7, 7, 7);
+        model.position.set(0, 0, 0);
+    }
+});
 
 
 // Lights

@@ -103,7 +103,7 @@ gltfLoader.load('/models/Raven/ravency.gltf', (gltf) => {
 
     const standardMaterial = new THREE.MeshPhysicalMaterial();
     standardMaterial.metalness = 1;
-    standardMaterial.roughness = 0.1;
+    standardMaterial.roughness = 0.25;
     standardMaterial.clearcoat = 1;
     standardMaterial.envMap = environmentMapTexture;
     standardMaterial.roughnessMap = roughnessTexture;
@@ -168,7 +168,7 @@ window.addEventListener('resize', () => {
 })
 
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.set(0, 0, 5);
+camera.position.set(0, 0, 6);
 
 scene.add(camera)
 
