@@ -95,7 +95,7 @@ scene.add(particles)
 let model;
 
 
-gltfLoader.load('/models/Oloid/scene.gltf', (gltf) => {
+gltfLoader.load('/models/Raven/ravency.gltf', (gltf) => {
     model = gltf.scene;
 
     // const material = new THREE.MeshMatcapMaterial()
@@ -103,7 +103,7 @@ gltfLoader.load('/models/Oloid/scene.gltf', (gltf) => {
 
     const standardMaterial = new THREE.MeshPhysicalMaterial();
     standardMaterial.metalness = 1;
-    standardMaterial.roughness = 0.25;
+    standardMaterial.roughness = 0;
     standardMaterial.clearcoat = 1;
     standardMaterial.envMap = environmentMapTexture;
     standardMaterial.roughnessMap = roughnessTexture;
@@ -125,7 +125,7 @@ gltfLoader.load('/models/Oloid/scene.gltf', (gltf) => {
         model.scale.set(20, 20, 20);
         model.position.set(1, -0.5, 0);
     } else {
-        model.scale.set(0.1, 0.1, 0.1);
+        model.scale.set(20, 20, 20);
         model.position.set(-1, 0, 0);
     }
 });
