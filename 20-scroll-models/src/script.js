@@ -13,12 +13,12 @@ const matcapTexture = textureLoader.load('/textures/matcaps/9.png')
 
 const cubeTextureLoader = new THREE.CubeTextureLoader()
 const environmentMapTexture = cubeTextureLoader.load([
-    '/textures/environmentMaps/5/px.png',
-    '/textures/environmentMaps/5/nx.png',
-    '/textures/environmentMaps/5/py.png',
-    '/textures/environmentMaps/5/ny.png',
-    '/textures/environmentMaps/5/pz.png',
-    '/textures/environmentMaps/5/nz.png'
+    '/textures/environmentMaps/4/px.png',
+    '/textures/environmentMaps/4/nx.png',
+    '/textures/environmentMaps/4/py.png',
+    '/textures/environmentMaps/4/ny.png',
+    '/textures/environmentMaps/4/pz.png',
+    '/textures/environmentMaps/4/nz.png'
 ])
 
 
@@ -92,8 +92,17 @@ const particlesMaterial = new THREE.PointsMaterial({
 const particles = new THREE.Points(particlesGeometry, particlesMaterial)
 scene.add(particles)
 
-let model;
+// Materials
 
+const standardMaterial = new THREE.MeshPhysicalMaterial();
+standardMaterial.metalness = 1;
+standardMaterial.roughness = 0.25;
+standardMaterial.clearcoat = 1;
+standardMaterial.envMap = environmentMapTexture;
+standardMaterial.roughnessMap = roughnessTexture;
+
+
+let model;
 
 gltfLoader.load('/models/Raven/ravency.gltf', (gltf) => {
     model = gltf.scene;
@@ -101,12 +110,6 @@ gltfLoader.load('/models/Raven/ravency.gltf', (gltf) => {
     // const material = new THREE.MeshMatcapMaterial()
     // material.matcap = matcapTexture
 
-    const standardMaterial = new THREE.MeshPhysicalMaterial();
-    standardMaterial.metalness = 1;
-    standardMaterial.roughness = 0;
-    standardMaterial.clearcoat = 1;
-    standardMaterial.envMap = environmentMapTexture;
-    standardMaterial.roughnessMap = roughnessTexture;
     
 
     model.traverse((node) => {
