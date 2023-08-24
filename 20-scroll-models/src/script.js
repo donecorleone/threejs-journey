@@ -28,19 +28,19 @@ const cursor = {
     speed: 0
 }
 
-window.addEventListener('mousemove', (event) => {
-    const previousX = cursor.x
-    cursor.x = event.clientX / sizes.width - 0.5
-    cursor.y = -(event.clientY / sizes.height - 0.5)
-    cursor.speed = cursor.x - previousX
+// window.addEventListener('mousemove', (event) => {
+//     const previousX = cursor.x
+//     cursor.x = event.clientX / sizes.width - 0.5
+//     cursor.y = -(event.clientY / sizes.height - 0.5)
+//     cursor.speed = cursor.x - previousX
 
-    gsap.to(camera.rotation, {
-        y: - cursor.x * 0.2,
-        x: cursor.y * 0.2,
-        duration: 1,
-        ease: "power1.out"
-    });
-})
+//     gsap.to(camera.rotation, {
+//         y: - cursor.x * 0.2,
+//         x: cursor.y * 0.2,
+//         duration: 1,
+//         ease: "power1.out"
+//     });
+// })
 
 const canvas = document.querySelector('canvas.webgl')
 const wrapper = document.querySelector('.wrapper')
@@ -96,26 +96,26 @@ scene.add(particles)
 
 const standardMaterial = new THREE.MeshPhysicalMaterial();
 standardMaterial.metalness = 1;
-standardMaterial.roughness = 0.25;
+standardMaterial.roughness = 0.4;
 standardMaterial.clearcoat = 1;
 standardMaterial.envMap = environmentMapTexture;
 standardMaterial.roughnessMap = roughnessTexture;
 
+// const material = new THREE.MeshMatcapMaterial()
+// material.matcap = matcapTexture
+
 
 let model;
 
-gltfLoader.load('/models/Raven/ravency.gltf', (gltf) => {
+gltfLoader.load('/models/Oloid/globe.gltf', (gltf) => {
     model = gltf.scene;
 
-    // const material = new THREE.MeshMatcapMaterial()
-    // material.matcap = matcapTexture
-
+    
     
 
     model.traverse((node) => {
         if (node.isMesh) {
             node.material = standardMaterial;
-            // node.material.envMap = environmentMapTexture;
             node.material.needsUpdate = true;
         }
     });
@@ -125,11 +125,11 @@ gltfLoader.load('/models/Raven/ravency.gltf', (gltf) => {
     model.rotation.set(0, 0, 0)
 
     if (window.innerWidth <= 768) {
-        model.scale.set(20, 20, 20);
-        model.position.set(1, -0.5, 0);
-    } else {
-        model.scale.set(20, 20, 20);
+        model.scale.set(3.5, 3.5, 3.5);
         model.position.set(-1, 0, 0);
+    } else {
+        model.scale.set(3.7, 3.7, 3.7   );
+        model.position.set(0, 0, 0);
     }
 });
 
