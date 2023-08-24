@@ -128,7 +128,7 @@ gltfLoader.load('/models/Oloid/globe.gltf', (gltf) => {
         model.scale.set(3.5, 3.5, 3.5);
         model.position.set(-1, 0, 0);
     } else {
-        model.scale.set(3.7, 3.7, 3.7   );
+        model.scale.set(4.3, 4.3, 4.3);
         model.position.set(0, 0, 0);
     }
 });

@@ -91,7 +91,7 @@ scene.add(plane, torus)
 let model;
 
 
-gltfLoader.load('/models/Raven/ravency.gltf', (gltf) => {
+gltfLoader.load('/models/Raven/max.gltf', (gltf) => {
     model = gltf.scene;
 
     // const material = new THREE.MeshMatcapMaterial()
@@ -119,7 +119,7 @@ gltfLoader.load('/models/Raven/ravency.gltf', (gltf) => {
         model.scale.set(20, 20, 20);
         model.position.set(1, -0.5, 0);
     } else {
-        model.scale.set(7, 7, 7);
+        model.scale.set(0.5, 0.5, 0.5);
         model.position.set(0, 0, 0);
     }
 });
