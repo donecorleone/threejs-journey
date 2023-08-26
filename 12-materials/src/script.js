@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import {Text} from 'troika-three-text'
 
 const gltfLoader = new GLTFLoader()
 
@@ -93,16 +94,7 @@ let model;
 
 gltfLoader.load('/models/Raven/max.gltf', (gltf) => {
     model = gltf.scene;
-
-    // const material = new THREE.MeshMatcapMaterial()
-    // material.matcap = matcapTexture
-
-    // const standardMaterial = new THREE.MeshPhysicalMaterial();
-    // standardMaterial.metalness = 1;
-    // standardMaterial.roughness = 0.25;
-    // standardMaterial.clearcoat = 1;
     
-
     model.traverse((node) => {
         if (node.isMesh) {
             node.material = glassMaterial;
@@ -124,6 +116,18 @@ gltfLoader.load('/models/Raven/max.gltf', (gltf) => {
     }
 });
 
+// Create:
+const myText = new Text()
+myScene.add(myText)
+
+// Set properties to configure:
+myText.text = 'Hello world!'
+myText.fontSize = 0.2
+myText.position.z = -2
+myText.color = 0x9966FF
+
+// Update the rendering:
+myText.sync()
 
 // Lights
 
