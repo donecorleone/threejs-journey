@@ -191,9 +191,9 @@ const speed = 0.5;
 const tick = () => {
     const elapsedTime = clock.getElapsedTime();
 
-    if (model) {
-        model.rotation.y = Math.sin(elapsedTime * speed) * maxAngle;
-    }
+    // if (model) {
+    //     model.rotation.y = Math.sin(elapsedTime * speed) * maxAngle;
+    // }
 
     particles.rotation.x = - elapsedTime * 0.1;
     particles.rotation.y = elapsedTime * 0.08;
